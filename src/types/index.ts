@@ -1,0 +1,109 @@
+export interface LoginCredentials {
+  studentId: string;
+  password: string;
+}
+
+export interface Student {
+  id: string;
+  firstName: string;
+  lastName: string;
+  studentId: string;
+  email: string;
+  classId: string;
+  profileImage?: string;
+}
+
+export interface Class {
+  id: string;
+  name: string;
+  level: string;
+  section?: string;
+  classTeacher: Teacher;
+}
+
+export interface Teacher {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber?: string;
+  profileImage?: string;
+}
+
+export interface Subject {
+  id: string;
+  name: string;
+  code: string;
+  teacher: Teacher;
+  classId: string;
+}
+
+export interface Holiday {
+  id: string;
+  name: string;
+  startDate: Date;
+  endDate: Date;
+  description?: string;
+}
+
+export interface Assignment {
+  id: string;
+  title: string;
+  courseName: string;
+  courseCode: string;
+  description: string;
+  dateGiven: Date;
+  submissionDate: Date;
+  teacherId: string;
+  fileUrl?: string;
+  status: "pending" | "submitted" | "overdue";
+}
+
+export interface AttendanceRecord {
+  id: string;
+  studentId: string;
+  date: Date;
+  status: "present" | "absent" | "late" | "excused";
+  remarks?: string;
+}
+
+export interface TermAttendance {
+  term: string;
+  session: string;
+  totalDays: number;
+  daysPresent: number;
+  daysAbsent: number;
+  daysLate: number;
+  daysExcused: number;
+  attendancePercentage: number;
+  records: AttendanceRecord[];
+}
+
+export interface SubjectResult {
+  subjectId: string;
+  subjectName: string;
+  subjectCode: string;
+  firstCA: number;
+  secondCA: number;
+  exam: number;
+  total: number;
+  grade: string;
+  remarks: string;
+  teacherComment?: string;
+}
+
+export interface TermResult {
+  id: string;
+  studentId: string;
+  term: "First Term" | "Second Term" | "Third Term";
+  session: string; // e.g., "2023/2024"
+  className: string;
+  subjects: SubjectResult[];
+  totalScore: number;
+  averageScore: number;
+  position: number;
+  totalStudents: number;
+  classTeacherComment?: string;
+  principalComment?: string;
+  nextTermBegins?: Date;
+}

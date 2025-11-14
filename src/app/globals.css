@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f3f4f6;
+  --foreground: #171717;
+
+  /* Border and Input Colors */
+  --border: #e5e7eb;
+  --input: #ffffff;
+  --ring: #3385ff;
+}
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  /* Primary Colors (Updated to #00315f - Deep Navy) */
+  --color-primary-50: #e6f0ff;
+  --color-primary-100: #cce0ff;
+  --color-primary-200: #99c2ff;
+  --color-primary-300: #66a3ff;
+  --color-primary-400: #3385ff;
+  --color-primary-500: #00315f; /* Main Primary */
+  --color-primary-600: #002b54; /* Hover/Active */
+  --color-primary-700: #002449;
+  --color-primary-800: #001d3d;
+  --color-primary-900: #001631;
+
+  /* Secondary Colors (Updated to #e1f5e1 - Soft Mint) */
+  --color-secondary-50: #f5fbf5;
+  --color-secondary-100: #eaf7ea;
+  --color-secondary-200: #d6efd6;
+  --color-secondary-300: #c1e7c1;
+  --color-secondary-400: #addfad;
+  --color-secondary-500: #e1f5e1; /* Main Secondary */
+  --color-secondary-600: #c7ddc7; /* Hover/Active */
+  --color-secondary-700: #adc5ad;
+  --color-secondary-800: #94ae94;
+  --color-secondary-900: #7a967a;
+
+  /* Neutral/Gray */
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+
+  /* Utility Colors */
+  --color-success: #22c55e;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #111827;
+    --foreground: #ededed;
+
+    /* Border and Input Colors for Dark Mode */
+    --border: #374151;
+    --input: #1f2937;
+    --ring: #3b82f6;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: inherit;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gray-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gray-400);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-500);
+}
+
+/* Dark mode scrollbar */
+@media (prefers-color-scheme: dark) {
+  ::-webkit-scrollbar-track {
+    background: var(--gray-800);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--gray-600);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--gray-500);
+  }
+}

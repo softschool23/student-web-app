@@ -34,6 +34,50 @@ export interface LoginResponse {
   refreshToken: string;
 }
 
+export interface StudentClass {
+  _id: string;
+  name: string;
+  sectionId: string;
+  categoryId: string;
+  organisationId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface StudentSection {
+  _id: string;
+  name: string;
+  assessmentStructureId: string;
+  gradingScaleId: string;
+  attendanceConfigId: string;
+  reportConfigId: string;
+  organisationId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface EnrollmentTerm {
+  _id: string;
+  name: string;
+  organisationId: string;
+  startDate: string;
+  endDate: string;
+  holidays: string[];
+  nextTermBegins: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface StudentSubjectItem {
+  _id: string;
+  name: string;
+  code?: string;
+  isCompulsory: boolean;
+  organisationId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface StudentProfile {
   _id: string;
   firstName: string;
@@ -42,12 +86,50 @@ export interface StudentProfile {
   dob: string;
   gender: string;
   address: string;
+  enrollmentTermId: string;
+  enrollmentClassId: string;
+  enrollmentSectionId: string;
+  currentClassId: string;
+  currentSectionId: string;
   medicalInfo: string;
   organisationId: string;
   studentNumber: string;
   status: string;
   createdAt: string;
   updatedAt: string;
+  class?: StudentClass;
+  section?: StudentSection;
+  enrollmentTerm?: EnrollmentTerm;
+  subjects?: StudentSubjectItem[];
+}
+
+export interface SessionControlSession {
+  _id: string;
+  name: string;
+  organisationId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SessionControlTerm {
+  _id: string;
+  name: string;
+  organisationId: string;
+  startDate: string;
+  endDate: string;
+  holidays: string[];
+  nextTermBegins: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SessionControl {
+  _id: string;
+  organisationId: string;
+  createdAt: string;
+  updatedAt: string;
+  currentSession: SessionControlSession;
+  currentTerm: SessionControlTerm;
 }
 
 export interface SubjectTeacher {

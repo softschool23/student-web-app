@@ -1,6 +1,43 @@
+export interface SchoolBasicInfo {
+  _id: string;
+  name: string;
+  shortName: string;
+  logo: string;
+  products: string[];
+  plan: Record<string, unknown>;
+}
+
 export interface LoginCredentials {
   studentId: string;
   password: string;
+}
+
+export interface LoginPayload {
+  identifier: string;
+  password: string;
+  refreshTokenExpiry: string;
+  organisationId: string;
+}
+
+export interface LoginResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+
+export interface StudentProfile {
+  _id: string;
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  dob: string;
+  gender: string;
+  address: string;
+  medicalInfo: string;
+  organisationId: string;
+  studentNumber: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Student {

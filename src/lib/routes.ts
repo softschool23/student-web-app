@@ -1,3 +1,28 @@
+export const getRoutes = (shortName: string) => ({
+  auth: {
+    login: `/${shortName}`,
+    register: `/${shortName}/register`,
+    forgotPassword: `/${shortName}/forgot-password`,
+    resetPassword: `/${shortName}/reset-password`,
+    emailVerification: `/${shortName}/email-verification`,
+  },
+  main: {
+    dashboard: `/${shortName}/dashboard`,
+    subjects: `/${shortName}/subjects`,
+    holidays: `/${shortName}/holidays`,
+    attendance: `/${shortName}/attendance`,
+    assignments: `/${shortName}/assignments`,
+    results: `/${shortName}/results`,
+    analytics: `/${shortName}/analytics`,
+    settings: `/${shortName}/settings`,
+    profile: `/${shortName}/profile`,
+    wallet: `/${shortName}/wallet`,
+    walletTransactions: `/${shortName}/wallet/transactions`,
+    walletAnalytics: `/${shortName}/wallet/analytics`,
+  },
+});
+
+// Legacy static routes kept for backward compatibility during migration
 export const routes = {
   auth: {
     login: "/",

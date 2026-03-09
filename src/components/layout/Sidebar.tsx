@@ -18,8 +18,9 @@ import {
   Award,
 } from "lucide-react";
 
-import { routes } from "@/src/lib/routes";
+import { getRoutes } from "@/src/lib/routes";
 import { useSidebarStore } from "@/src/lib/stores/sidebarStore";
+import { useSchool } from "@/src/lib/context/SchoolContext"; // zustand store
 
 interface SubNavItem {
   label: string;
@@ -34,40 +35,42 @@ interface NavItem {
   children?: SubNavItem[];
 }
 
-const navItems: NavItem[] = [
-  {
-    label: "Dashboard",
-    href: routes.main.dashboard,
-    icon: LayoutDashboard,
-  },
-  {
-    label: "Subjects",
-    href: routes.main.subjects,
-    icon: BookOpen,
-  },
-  {
-    label: "Assignments",
-    href: routes.main.assignments,
-    icon: FileText,
-  },
-  {
-    label: "Results",
-    href: routes.main.results,
-    icon: Award,
-  },
-  {
-    label: "Attendance",
-    href: routes.main.attendance,
-    icon: UserCheck,
-  },
-  {
-    label: "Holidays",
-    href: routes.main.holidays,
-    icon: Calendar,
-  },
-];
-
 const Sidebar = () => {
+  const { shortName } = useSchool();
+  const routes = getRoutes(shortName);
+
+  const navItems: NavItem[] = [
+    {
+      label: "Dashboard",
+      href: routes.main.dashboard,
+      icon: LayoutDashboard,
+    },
+    {
+      label: "Subjects",
+      href: routes.main.subjects,
+      icon: BookOpen,
+    },
+    {
+      label: "Assignments",
+      href: routes.main.assignments,
+      icon: FileText,
+    },
+    {
+      label: "Results",
+      href: routes.main.results,
+      icon: Award,
+    },
+    {
+      label: "Attendance",
+      href: routes.main.attendance,
+      icon: UserCheck,
+    },
+    {
+      label: "Holidays",
+      href: routes.main.holidays,
+      icon: Calendar,
+    },
+  ];
   const pathname = usePathname();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const { isOpen, isCollapsed, toggleOpen, toggleCollapsed, setOpen } =
@@ -93,7 +96,7 @@ const Sidebar = () => {
     setExpandedItems((prev) =>
       prev.includes(label)
         ? prev.filter((item) => item !== label)
-        : [...prev, label]
+        : [...prev, label],
     );
   };
 
@@ -131,14 +134,14 @@ const Sidebar = () => {
           // Desktop: collapse functionality
           isCollapsed ? "lg:w-20" : "lg:w-64",
           // Always full width on mobile when open
-          "w-64"
+          "w-64",
         )}
       >
         {/* Header with Logo and Close/Toggle buttons */}
         <div
           className={cn(
             "px-4 lg:px-6 border-b lg:hidden border-gray-200 dark:border-gray-700 flex items-center justify-between",
-            isCollapsed ? "py-[27px]" : "py-[26px]"
+            isCollapsed ? "py-[27px]" : "py-[26px]",
           )}
         >
           {/* Mobile Close Button */}
@@ -155,7 +158,7 @@ const Sidebar = () => {
           onClick={toggleCollapsed}
           className={cn(
             "hidden lg:block p-2 rounded-lg absolute right-0 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-400 transition-all",
-            isCollapsed && "mx-auto"
+            isCollapsed && "mx-auto",
           )}
           aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
@@ -188,7 +191,7 @@ const Sidebar = () => {
                         isItemActive
                           ? "bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400"
                           : "text-gray-700 dark:text-gray-300",
-                        isCollapsed && "lg:justify-center"
+                        isCollapsed && "lg:justify-center",
                       )}
                       title={isCollapsed ? item.label : undefined}
                     >
@@ -197,7 +200,7 @@ const Sidebar = () => {
                         <span
                           className={cn(
                             "transition-opacity duration-300",
-                            isCollapsed && "lg:hidden"
+                            isCollapsed && "lg:hidden",
                           )}
                         >
                           {item.label}
@@ -223,7 +226,7 @@ const Sidebar = () => {
                         isItemActive
                           ? "bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400"
                           : "text-gray-700 dark:text-gray-300",
-                        isCollapsed && "lg:justify-center"
+                        isCollapsed && "lg:justify-center",
                       )}
                       title={isCollapsed ? item.label : undefined}
                     >
@@ -231,7 +234,7 @@ const Sidebar = () => {
                       <span
                         className={cn(
                           "transition-opacity duration-300",
-                          isCollapsed && "lg:hidden"
+                          isCollapsed && "lg:hidden",
                         )}
                       >
                         {item.label}
@@ -246,7 +249,7 @@ const Sidebar = () => {
                         "overflow-hidden transition-all duration-300 ease-in-out",
                         isExpanded
                           ? "max-h-96 opacity-100"
-                          : "max-h-0 opacity-0"
+                          : "max-h-0 opacity-0",
                       )}
                     >
                       <ul className="mt-1 ml-4 space-y-1 border-l-2 border-gray-200 dark:border-gray-700 pl-4">
@@ -264,7 +267,7 @@ const Sidebar = () => {
                                   "hover:bg-gray-100 dark:hover:bg-gray-800",
                                   isChildActive
                                     ? "bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 font-medium"
-                                    : "text-gray-600 dark:text-gray-400"
+                                    : "text-gray-600 dark:text-gray-400",
                                 )}
                               >
                                 {ChildIcon && <ChildIcon className="w-4 h-4" />}

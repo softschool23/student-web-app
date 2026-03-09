@@ -5,17 +5,21 @@ import { usePathname } from "next/navigation";
 import Sidebar from "@/src/components/layout/Sidebar";
 import Header from "@/src/components/layout/Header";
 import { cn } from "@/src/lib/utils";
+import { useMe } from "@/src/lib/queries/useMe";
 
 const getPageTitle = (pathname: string): string => {
   const segments = pathname.split("/").filter(Boolean);
 
-  if (segments.length === 0 || segments[0] === "dashboard") {
+  // segments[0] is the shortName, so page segments start at index 1
+  const pageSegments = segments.slice(1);
+
+  if (pageSegments.length === 0 || pageSegments[0] === "dashboard") {
     return "Dashboard";
   }
 
-  // Convert pathname to title (e.g., /users/all -> Users - All)
-  const mainSegment = segments[0];
-  const subSegment = segments[1];
+  // Convert pathname to title (e.g., /nis/subjects -> Subjects)
+  const mainSegment = pageSegments[0];
+  const subSegment = pageSegments[1];
 
   const formatSegment = (segment: string) => {
     return segment
@@ -34,11 +38,12 @@ const getPageTitle = (pathname: string): string => {
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const pageTitle = getPageTitle(pathname);
+  const { data: student } = useMe();
 
   return (
     <div className="h-screen bg-background dark:bg-gray-950 flex flex-col overflow-hidden">
       {/* Header */}
-      <Header title={pageTitle} userEmail="user@example.com" />
+      <Header title={pageTitle} student={student} />
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
@@ -48,7 +53,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         <div
           className={cn(
             "flex-1 flex flex-col overflow-hidden transition-all duration-300",
-            "w-full lg:w-auto"
+            "w-full lg:w-auto",
           )}
         >
           {/* Page Content */}

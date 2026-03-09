@@ -78,7 +78,7 @@ academicApiClient.interceptors.response.use(
       const { data } = await authApiClient.post<{
         access_token: string;
         refresh_token: string;
-      }>("/auth/refresh", { refreshToken });
+      }>("/auth/refresh-token", { refreshToken });
 
       Cookies.set("accessToken", data.access_token, {
         expires: 7,

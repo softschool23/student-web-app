@@ -40,6 +40,42 @@ export interface StudentProfile {
   updatedAt: string;
 }
 
+export interface SubjectTeacher {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email?: string;
+  phoneNumber?: string;
+}
+
+export interface SubjectItem {
+  id: string;
+  name: string;
+  code?: string;
+  isCompulsory: boolean;
+  teacher: SubjectTeacher | null;
+}
+
+export interface SubjectsResponse {
+  student: {
+    id: string;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    studentNumber: string;
+  };
+  class: {
+    id: string;
+    name: string;
+  };
+  section: {
+    id: string;
+    name: string;
+  };
+  subjects: SubjectItem[];
+  totalSubjects: number;
+}
+
 export interface Student {
   id: string;
   firstName: string;

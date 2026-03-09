@@ -7,6 +7,16 @@ export interface SchoolBasicInfo {
   plan: Record<string, unknown>;
 }
 
+export interface HolidayItem {
+  _id: string;
+  name: string;
+  startDate: string;
+  endDate: string;
+  organisationId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface LoginCredentials {
   studentId: string;
   password: string;

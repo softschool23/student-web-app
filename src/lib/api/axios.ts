@@ -13,6 +13,23 @@ export const academicApiClient = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
+// ─── Platform API Client (protected – requires access token) ─────────────────
+export const platformApiClient = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_PLATFORM_API_BASE_URL,
+  headers: { "Content-Type": "application/json" },
+});
+
+// Attach access token to every platform request
+platformApiClient.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+    const token = Cookies.get("accessToken");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+);
+
 // Attach access token to every academic request
 academicApiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {

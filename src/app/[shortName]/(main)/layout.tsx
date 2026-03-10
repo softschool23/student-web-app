@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 
 import Sidebar from "@/src/components/layout/Sidebar";
 import Header from "@/src/components/layout/Header";
+import DownloadProgressBanner from "@/src/components/layout/DownloadProgressBanner";
 import { cn } from "@/src/lib/utils";
 import { useMe } from "@/src/lib/queries/useMe";
 
@@ -42,6 +43,9 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="h-screen bg-background dark:bg-gray-950 flex flex-col overflow-hidden">
+      {/* Download Progress Banner (above header) */}
+      <DownloadProgressBanner />
+
       {/* Header */}
       <Header title={pageTitle} student={student} />
 

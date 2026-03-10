@@ -272,3 +272,72 @@ export interface TermResult {
   principalComment?: string;
   nextTermBegins?: Date;
 }
+
+// ─── Result Preview (API) ─────────────────────────────────────────────────────
+
+export interface ResultSubject {
+  subjectId: string;
+  subjectName: string;
+  subjectCode?: string;
+  firstCA: number;
+  secondCA: number;
+  exam: number;
+  total: number;
+  grade: string;
+  remarks: string;
+}
+
+export interface ResultPreview {
+  hasResult: boolean;
+  termId: string;
+  sessionId: string;
+  student: {
+    id: string;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    studentNumber: string;
+  };
+  class: {
+    id: string;
+    name: string;
+  };
+  section: {
+    id: string;
+    name: string;
+  };
+  summary: {
+    totalScore: number;
+    averageScore: number;
+    position: number;
+    totalStudents: number;
+    subjectsCount: number;
+  };
+  subjects: ResultSubject[];
+  comments: {
+    classTeacherComment: string | null;
+    principalComment: string | null;
+  };
+  nextTermBegins: string | null;
+}
+
+export interface ResultDownloadResponse {
+  success: boolean;
+  pdfJobId: string;
+  message: string;
+  termId: string;
+  sessionId: string;
+}
+
+export interface PdfJobStatus {
+  jobId: string;
+  status: "waiting" | "active" | "completed" | "failed";
+  progress: number;
+  createdAt: string;
+  originalSize?: number;
+  compressedSize?: number;
+  compressionRatio?: number;
+  processingStatus?: string;
+  uploadStatus?: string;
+  fileUrl?: string;
+}

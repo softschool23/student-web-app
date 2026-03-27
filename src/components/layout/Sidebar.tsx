@@ -79,8 +79,7 @@ const Sidebar = () => {
   ];
   const pathname = usePathname();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
-  const { isOpen, isCollapsed, toggleOpen, toggleCollapsed, setOpen } =
-    useSidebarStore();
+  const { isOpen, isCollapsed, toggleCollapsed, setOpen } = useSidebarStore();
 
   // Close mobile sidebar on route change
   useEffect(() => {

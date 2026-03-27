@@ -16,6 +16,7 @@ import {
   UserCheck,
   FileText,
   Award,
+  Receipt,
 } from "lucide-react";
 
 import { getRoutes } from "@/src/lib/routes";
@@ -59,6 +60,11 @@ const Sidebar = () => {
       label: "Results",
       href: routes.main.results,
       icon: Award,
+    },
+    {
+      label: "Invoices",
+      href: routes.main.invoices,
+      icon: Receipt,
     },
     {
       label: "Attendance",

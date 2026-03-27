@@ -341,3 +341,92 @@ export interface PdfJobStatus {
   uploadStatus?: string;
   fileUrl?: string;
 }
+
+export interface InvoiceItem {
+  code: string;
+  title: string;
+  amount: number;
+}
+
+export interface InvoiceSession {
+  _id: string;
+  name: string;
+}
+
+export interface InvoiceTerm {
+  _id: string;
+  name: string;
+  startDate: string;
+  endDate: string;
+  nextTermBegins: string;
+}
+
+export interface InvoiceStudentRef {
+  _id: string;
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  currentClassId: string;
+  currentSectionId: string;
+  studentNumber: string;
+  status: string;
+}
+
+export type InvoiceStatus = "PAID" | "UNPAID" | "PARTIALLY_PAID";
+
+export interface Invoice {
+  _id: string;
+  organisationId: string;
+  studentId: InvoiceStudentRef;
+  sessionId: InvoiceSession;
+  termId: InvoiceTerm;
+  items: InvoiceItem[];
+  totalAmount: number;
+  minimumPartialPercentage: number;
+  minimumPartialAmount: number;
+  amountPaid: number;
+  status: InvoiceStatus;
+  active: boolean;
+  transactionChargeBearer: string;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+  outstandingAmount: number;
+}
+
+export interface InvoiceSummary {
+  totalAmount: number;
+  totalPaid: number;
+  totalOutstanding: number;
+}
+
+export interface InvoicesResponse {
+  student: {
+    id: string;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    studentNumber: string;
+  };
+  filters: {
+    sessionId: string | null;
+    termId: string | null;
+    status: string | null;
+    classId: string | null;
+  };
+  invoices: Invoice[];
+  totalInvoices: number;
+  summary: InvoiceSummary;
+}
+
+export interface PaymentLinkResponse {
+  reference: string;
+  authorizationUrl: string;
+  accessCode: string;
+  amount: number;
+}
+
+export interface VerifyPaymentResponse {
+  success: boolean;
+  message: string;
+}

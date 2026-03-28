@@ -77,8 +77,13 @@ body {
 
 /* Fade in/out animation */
 @keyframes fade-in-out {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 @theme {

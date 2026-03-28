@@ -11,8 +11,14 @@ import DownloadResultButton from "./components/DownloadResultButton";
 import { AlertCircle } from "lucide-react";
 
 const ResultsPage = () => {
-  const { result, isLoading, isError, resultError, handleDownload } =
-    useResults();
+  const {
+    result,
+    isLoading,
+    isError,
+    resultErrorMessage,
+    resultStatusCode,
+    handleDownload,
+  } = useResults();
 
   const renderContent = () => {
     if (isLoading) {
@@ -20,17 +26,19 @@ const ResultsPage = () => {
     }
 
     if (isError) {
+      const isForbidden = resultStatusCode === 403;
       return (
         <div className="flex flex-col items-center justify-center py-20 text-center gap-3">
           <div className="p-4 bg-red-100 dark:bg-red-900/20 rounded-full">
             <AlertCircle className="w-8 h-8 text-red-500 dark:text-red-400" />
           </div>
           <p className="text-base font-semibold text-gray-900 dark:text-white">
-            Failed to load results
+            {isForbidden ? "Results Disabled" : "Failed to load results"}
           </p>
           <p className="text-sm text-gray-500 dark:text-gray-400 max-w-xs">
-            {resultError instanceof Error
-              ? resultError.message
+            {isForbidden
+              ? (resultErrorMessage ??
+                "Results have been disabled by the school administrator. Please contact your administrator.")
               : "An error occurred while fetching your results. Please try again."}
           </p>
         </div>

@@ -12,13 +12,17 @@ interface LogoProps {
   priority?: boolean;
   href?: string;
   clickable?: boolean;
+  /** School logo URL from the API. Falls back to the default logo if not provided. */
+  logoUrl?: string;
+  /** Alt text for the logo image. Defaults to "School Logo". */
+  alt?: string;
 }
 
 const sizeClasses: Record<LogoSize, { width: number; height: number }> = {
-  sm: { width: 64, height: 21 }, // ~20% smaller for mobile
-  md: { width: 96, height: 32 }, // ~20% smaller for mobile
-  lg: { width: 120, height: 40 }, // ~20% smaller for mobile
-  xl: { width: 160, height: 53 }, // ~20% smaller for mobile
+  sm: { width: 64, height: 21 },
+  md: { width: 96, height: 32 },
+  lg: { width: 120, height: 40 },
+  xl: { width: 160, height: 53 },
 };
 
 const Logo = ({
@@ -29,23 +33,27 @@ const Logo = ({
   priority = false,
   href = "/",
   clickable = false,
+  logoUrl,
+  alt = "School Logo",
 }: LogoProps) => {
   const dimensions = {
     width: width || sizeClasses[size].width,
     height: height || sizeClasses[size].height,
   };
 
+  const src = logoUrl || "/logo.png";
+
   const logoImage = (
     <Image
-      src="/logo.png"
-      alt="OneVerify Logo"
+      src={src}
+      alt={alt}
       width={dimensions.width}
       height={dimensions.height}
       priority={priority}
       className={cn(
         "object-contain",
         "transition-opacity duration-200",
-        clickable && "hover:opacity-80 cursor-pointer"
+        clickable && "hover:opacity-80 cursor-pointer",
       )}
     />
   );

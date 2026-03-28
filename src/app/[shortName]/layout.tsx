@@ -4,6 +4,7 @@ import { use } from "react";
 import { useSchoolInfo } from "@/src/lib/queries/useSchoolInfo";
 import { useSchoolStore } from "@/src/lib/context/SchoolContext";
 import { AlertCircle, RefreshCw } from "lucide-react";
+import Image from "next/image";
 
 interface ShortNameLayoutProps {
   children: React.ReactNode;
@@ -12,9 +13,14 @@ interface ShortNameLayoutProps {
 
 const SchoolLoadingScreen = () => (
   <div className="min-h-screen bg-background flex items-center justify-center">
-    <div className="flex flex-col items-center gap-4">
-      <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-      <p className="text-sm text-muted-foreground">Loading school portal...</p>
+    <div className="flex flex-col items-center gap-4 animate-fade-in-out">
+      <Image
+        className="inset-0 object-cover"
+        src={"/logo-loader.png"}
+        alt="soft school"
+        width={50}
+        height={50}
+      />
     </div>
   </div>
 );

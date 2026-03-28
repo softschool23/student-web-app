@@ -77,25 +77,6 @@ className = "bg-background text-foreground border-border";
 className = "bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100";
 ```
 
-#### Responsive Design (Mobile-First)
-
-- **Every component and page MUST be fully responsive with mobile support**
-- Use Tailwind's responsive prefixes: `sm:`, `md:`, `lg:`, `xl:`, `2xl:`
-- Follow mobile-first approach: base styles for mobile, then scale up
-- Example:
-
-```typescript
-className = "flex flex-col md:flex-row gap-4 p-4 md:p-6 lg:p-8";
-```
-
-- Common responsive patterns:
-  - Layouts: `flex-col md:flex-row` for stacking on mobile
-  - Grids: `grid-cols-1 md:grid-cols-2 lg:grid-cols-3`
-  - Spacing: `p-4 md:p-6`, `gap-2 md:gap-4`
-  - Text: `text-sm md:text-base`, `text-2xl md:text-3xl lg:text-4xl`
-  - Hidden elements: `hidden md:block` or `block md:hidden`
-  - Width: `w-full md:w-auto`, `max-w-full md:max-w-md`
-
 ### 4. File Organization
 
 #### Authentication Pages (`app/(auth)/`)
@@ -155,7 +136,6 @@ const ComponentName = ({ prop1, prop2 }: ComponentProps) => {
     <div
       className={cn(
         "base-classes",
-        "md:desktop-classes lg:large-classes",
         "dark:dark-classes",
         conditionalClass && "conditional-classes"
       )}
@@ -180,7 +160,7 @@ import { Search, User, Menu, X, ChevronDown } from "lucide-react";
 const Component = () => {
   return (
     <div>
-      <Search className="w-4 h-4 md:w-5 md:h-5" />
+      <Search className="w-4 h-4" />
       <User className="w-5 h-5 text-foreground" />
     </div>
   );
@@ -188,10 +168,61 @@ const Component = () => {
 ```
 
 - Use consistent sizing: `w-4 h-4` or `w-5 h-5` for most cases
-- Consider responsive icon sizes when appropriate: `w-4 h-4 md:w-5 md:h-5`
 - Apply color classes as needed: `text-foreground`, `text-muted-foreground`, etc.
 
-### 7. Form Handling
+### 7. Date Formatting
+
+- **Always use Day.js for all date formatting and manipulation**
+- Never use the native `Date` object methods or other date libraries (e.g. `date-fns`, `moment`) for formatting
+- Import dayjs and any needed plugins from `dayjs`
+- Example:
+
+```typescript
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import utc from "dayjs/plugin/utc";
+
+dayjs.extend(relativeTime);
+dayjs.extend(utc);
+
+// Formatting
+const formatted = dayjs(date).format("MMMM D, YYYY"); // "March 26, 2026"
+const shortDate = dayjs(date).format("MM/DD/YYYY"); // "03/26/2026"
+const withTime = dayjs(date).format("YYYY-MM-DD HH:mm:ss"); // ISO-style
+
+// Relative time
+const relative = dayjs(date).fromNow(); // "2 hours ago"
+
+// UTC
+const utcDate = dayjs.utc(date).format();
+```
+
+- Register plugins once at the app entry point (e.g. `lib/dayjs.ts`) and import that file where needed:
+
+```typescript
+// lib/dayjs.ts
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+dayjs.extend(relativeTime);
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+export default dayjs;
+```
+
+```typescript
+// Usage in components
+import dayjs from "@/lib/dayjs";
+
+const FormattedDate = ({ date }: { date: string }) => (
+  <span>{dayjs(date).format("MMM D, YYYY")}</span>
+);
+```
+
+### 8. Form Handling
 
 - **Always use React Hook Form with Zod for form validation**
 - Define schemas with Zod for type safety and validation
@@ -230,7 +261,7 @@ const FormComponent = () => {
 };
 ```
 
-### 8. Best Practices
+### 9. Best Practices
 
 - **TypeScript**: Always use TypeScript with proper type definitions
 - **Props Interface**: Define interfaces for component props
@@ -241,7 +272,7 @@ const FormComponent = () => {
 - **Component Reuse**: Always check for existing components before creating new ones
 - **Form Validation**: Use React Hook Form + Zod for all forms
 - **Icons**: Use Lucide React for all icon needs
-- **Responsive Design**: Every component and page must work seamlessly on mobile, tablet, and desktop
+- **Dates**: Use Day.js for all date formatting and manipulation
 
 ## Key Reminders
 
@@ -249,11 +280,11 @@ const FormComponent = () => {
 ✅ Use `cn()` for className management  
 ✅ Colors from `globals.css` first  
 ✅ Always include `dark:` variants  
-✅ **Every component must be fully responsive (mobile-first)**  
 ✅ Add `"use client"` when needed  
 ✅ **Use existing components first, create only when needed**  
 ✅ **React Hook Form + Zod for all forms**  
 ✅ **Lucide React for all icons**  
+✅ **Day.js for all date formatting — never native Date methods or other libraries**  
 ✅ Keep code modular and clean  
 ✅ Proper TypeScript typing  
 ✅ Organize files by feature/domain

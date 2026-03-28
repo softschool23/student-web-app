@@ -430,3 +430,49 @@ export interface VerifyPaymentResponse {
   success: boolean;
   message: string;
 }
+
+// ─── Assignments ──────────────────────────────────────────────────────────────
+
+export interface AssignmentItem {
+  id: string;
+  title: string;
+  description: string;
+  fileUrl: string;
+  dueDate: string;
+  createdAt: string;
+  updatedAt: string;
+  subject: { id: string; name: string };
+  class: { id: string; name: string };
+  session: { id: string; name: string };
+  term: { id: string; name: string; startDate: string; endDate: string };
+  teacher: { id: string | null; fullName: string };
+}
+
+export interface AssignmentsResponse {
+  student: {
+    id: string;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    studentNumber: string;
+  };
+  class: { id: string; name: string };
+  section: { id: string; name: string };
+  subjects: Array<{
+    id: string;
+    name: string;
+    isCompulsory: boolean;
+    code?: string;
+  }>;
+  assignments: AssignmentItem[];
+  totalCount: number;
+  totalPages: number;
+  currentPage: number;
+}
+
+export interface AssignmentParams {
+  search?: string;
+  subjectId?: string;
+  termId?: string;
+  sessionId?: string;
+}

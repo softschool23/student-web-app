@@ -66,11 +66,11 @@ const Sidebar = () => {
       href: routes.main.invoices,
       icon: Receipt,
     },
-    {
-      label: "Attendance",
-      href: routes.main.attendance,
-      icon: UserCheck,
-    },
+    // {
+    //   label: "Attendance",
+    //   href: routes.main.attendance,
+    //   icon: UserCheck,
+    // },
     {
       label: "Holidays",
       href: routes.main.holidays,

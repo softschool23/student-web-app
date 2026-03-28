@@ -75,6 +75,16 @@ body {
   font-family: inherit;
 }
 
+/* Fade in/out animation */
+@keyframes fade-in-out {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+
+@theme {
+  --animate-fade-in-out: fade-in-out 1.5s ease-in-out infinite;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;

@@ -48,7 +48,7 @@ const ResultSummaryCard = ({ result }: ResultSummaryCardProps) => {
           <h2 className="text-lg md:text-xl font-bold text-gray-900 dark:text-white capitalize">
             {student.firstName} {student.middleName} {student.lastName}
           </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1 mt-0.5">
+          <p className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1 mt-0.5 uppercase">
             <Hash className="w-3 h-3" />
             {student.studentNumber}
           </p>

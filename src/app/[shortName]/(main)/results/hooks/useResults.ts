@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import { useSchool } from "@/src/lib/context/SchoolContext";
 import { useCurrentSession } from "@/src/lib/queries/useCurrentSession";
 import { useResultPreview } from "@/src/lib/queries/useResultPreview";
@@ -30,6 +31,15 @@ export const useResults = () => {
     error: resultError,
     refetch: refetchResult,
   } = useResultPreview(termId, sessionId);
+
+  const resultErrorMessage =
+    resultError instanceof AxiosError
+      ? (resultError.response?.data?.message ?? resultError.message)
+      : null;
+  const resultStatusCode =
+    resultError instanceof AxiosError
+      ? (resultError.response?.data?.statusCode ?? resultError.response?.status)
+      : null;
 
   // ── Download State (Zustand) ────────────────────────────────────────────────
   const {
@@ -102,6 +112,8 @@ export const useResults = () => {
     isResultLoading,
     isError: isSessionError || isResultError,
     resultError,
+    resultErrorMessage,
+    resultStatusCode,
 
     // Download
     handleDownload,

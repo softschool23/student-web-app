@@ -24,13 +24,13 @@ const ResultSummaryCard = ({ result }: ResultSummaryCardProps) => {
       bgColor: "bg-yellow-50 dark:bg-yellow-900/20",
       iconColor: "text-yellow-600 dark:text-yellow-400",
     },
-    {
-      label: "Position",
-      value: `${summary.position} / ${summary.totalStudents}`,
-      icon: Users,
-      bgColor: "bg-green-50 dark:bg-green-900/20",
-      iconColor: "text-green-600 dark:text-green-400",
-    },
+    // {
+    //   label: "Position",
+    //   value: `${summary.position} / ${summary.totalStudents}`,
+    //   icon: Users,
+    //   bgColor: "bg-green-50 dark:bg-green-900/20",
+    //   iconColor: "text-green-600 dark:text-green-400",
+    // },
     {
       label: "Subjects",
       value: summary.subjectsCount.toString(),

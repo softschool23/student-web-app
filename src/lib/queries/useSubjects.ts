@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getSubjects } from "@/src/lib/api/student";
+import { getSubjects } from "@/src/network/student";
 
 export const subjectQueryKeys = {
   list: ["student", "subjects"] as const,

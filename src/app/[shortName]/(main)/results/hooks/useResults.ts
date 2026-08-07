@@ -8,7 +8,7 @@ import { useCurrentSession } from "@/src/lib/queries/useCurrentSession";
 import { useResultPreview } from "@/src/lib/queries/useResultPreview";
 import { useJobStatus } from "@/src/lib/queries/useJobStatus";
 import { useResultDownloadStore } from "@/src/lib/stores/resultDownloadStore";
-import { triggerResultDownload } from "@/src/lib/api/results";
+import { triggerResultDownload } from "@/src/network/results";
 
 export const useResults = () => {
   const { school } = useSchool();

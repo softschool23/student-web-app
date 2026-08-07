@@ -16,8 +16,10 @@ const Dashboard = () => {
   const {
     student,
     sessionControl,
+    subjectsData,
     isStudentLoading,
     isSessionLoading,
+    isSubjectsLoading,
     isError,
     error,
   } = useDashboard();
@@ -52,10 +54,15 @@ const Dashboard = () => {
       )}
 
       {/* Stats Grid */}
-      {isStudentLoading ? (
+      {isStudentLoading || isSubjectsLoading ? (
         <StatsGridSkeleton />
       ) : (
-        student && <StatsGrid student={student} />
+        student && (
+          <StatsGrid
+            student={student}
+            totalSubjects={subjectsData?.totalSubjects ?? 0}
+          />
+        )
       )}
 
       {/* Term Info + Subjects */}
@@ -66,10 +73,10 @@ const Dashboard = () => {
           sessionControl && <CurrentTermCard sessionControl={sessionControl} />
         )}
 
-        {isStudentLoading ? (
+        {isSubjectsLoading ? (
           <SubjectsListCardSkeleton />
         ) : (
-          student && <SubjectsListCard subjects={student.subjects ?? []} />
+          <SubjectsListCard subjects={subjectsData?.subjects ?? []} />
         )}
       </div>
     </div>

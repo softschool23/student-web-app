@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getCurrentSession } from "@/src/lib/api/session";
+import { getCurrentSession } from "@/src/network/session";
 
 export const sessionQueryKeys = {
   current: (organisationId: string) =>

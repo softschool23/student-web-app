@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSchool } from "@/src/lib/context/SchoolContext";
 import { useCurrentSession } from "@/src/lib/queries/useCurrentSession";
-import { getAssignments } from "@/src/lib/api/assignments";
+import { getAssignments } from "@/src/network/assignments";
 import type { AssignmentParams } from "@/src/types";
 
 export const assignmentQueryKeys = {

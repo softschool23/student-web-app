@@ -1,8 +1,8 @@
 import { BookOpen } from "lucide-react";
-import type { StudentSubjectItem } from "@/src/types";
+import type { SubjectItem } from "@/src/types";
 
 interface SubjectsListCardProps {
-  subjects: StudentSubjectItem[];
+  subjects: SubjectItem[];
 }
 
 const SubjectsListCard = ({ subjects }: SubjectsListCardProps) => (
@@ -20,7 +20,7 @@ const SubjectsListCard = ({ subjects }: SubjectsListCardProps) => (
       <div className="space-y-2">
         {subjects.map((subject) => (
           <div
-            key={subject._id}
+            key={subject.id}
             className="flex items-center justify-between p-2 md:p-3 bg-gray-50 dark:bg-gray-800 rounded-lg"
           >
             <span className="text-sm md:text-base text-gray-900 dark:text-white capitalize">

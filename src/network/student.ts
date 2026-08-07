@@ -1,5 +1,6 @@
-import { academicApiClient } from "./axios";
 import type { StudentProfile, SubjectsResponse } from "@/src/types";
+
+import { academicApiClient } from "./config";
 
 export const getMe = async (): Promise<StudentProfile> => {
   const { data } =

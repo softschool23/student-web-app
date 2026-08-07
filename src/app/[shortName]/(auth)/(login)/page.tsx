@@ -13,7 +13,10 @@ import { useLogin } from "@/src/lib/queries/useLogin";
 import { useRouter } from "next/navigation";
 
 const loginSchema = z.object({
-  studentId: z.string().min(1, { message: "Student ID is required" }),
+  studentId: z
+    .string()
+    .trim()
+    .min(1, { message: "Student ID is required" }),
   password: z
     .string()
     .min(6, { message: "Password must be at least 6 characters" }),

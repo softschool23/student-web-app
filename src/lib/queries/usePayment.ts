@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { initializePayment, verifyPayment } from "@/src/lib/api/invoices";
+import { initializePayment, verifyPayment } from "@/src/network/invoices";
 
 export const useInitializePayment = () => {
   return useMutation({

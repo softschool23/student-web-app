@@ -1,13 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import Cookies from "js-cookie";
-import { getMe } from "@/src/lib/api/student";
+
+import { getAccessToken } from "@/src/network/config";
+import { getMe } from "@/src/network/student";
 
 export const studentQueryKeys = {
   me: ["student", "me"] as const,
 };
 
 export const useMe = () => {
-  const isAuthenticated = !!Cookies.get("accessToken");
+  const isAuthenticated = !!getAccessToken();
 
   return useQuery({
     queryKey: studentQueryKeys.me,

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getResultPreview } from "@/src/lib/api/results";
+import { getResultPreview } from "@/src/network/results";
 
 export const resultQueryKeys = {
   preview: (termId: string, sessionId: string) =>

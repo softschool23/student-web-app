@@ -1,5 +1,6 @@
-import { academicApiClient } from "./axios";
 import type { HolidayItem } from "@/src/types";
+
+import { academicApiClient } from "./config";
 
 export const getHolidays = async (
   organisationId: string,

@@ -3,11 +3,11 @@
 import { useRef, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Menu, LogOut } from "lucide-react";
-import Cookies from "js-cookie";
 import { cn } from "@/src/lib/utils";
 import { getRoutes } from "@/src/lib/routes";
 import { useSidebarStore } from "@/src/lib/stores/sidebarStore";
 import { useSchool } from "@/src/lib/context/SchoolContext";
+import { clearAuthTokens } from "@/src/network/config";
 import Logo from "../shared/Logo";
 import type { StudentProfile } from "@/src/types";
 
@@ -52,8 +52,7 @@ const Header = ({ student }: HeaderProps) => {
   }, []);
 
   const handleLogout = () => {
-    // Remove all cookies
-    Object.keys(Cookies.get()).forEach((key) => Cookies.remove(key));
+    clearAuthTokens();
     router.replace(routes.auth.login);
   };
 

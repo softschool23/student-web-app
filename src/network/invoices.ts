@@ -1,9 +1,10 @@
-import { academicApiClient } from "./axios";
 import type {
   InvoicesResponse,
   PaymentLinkResponse,
   VerifyPaymentResponse,
 } from "@/src/types";
+
+import { academicApiClient } from "./config";
 
 export type InvoiceStatusFilter = "ALL" | "PAID" | "UNPAID" | "PARTIALLY_PAID";
 

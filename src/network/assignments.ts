@@ -1,5 +1,6 @@
-import { academicApiClient } from "./axios";
 import type { AssignmentsResponse, AssignmentParams } from "@/src/types";
+
+import { academicApiClient } from "./config";
 
 export const getAssignments = async (
   params: AssignmentParams,

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { PageHeader, SearchInput, Select } from "@/src/components";
 import { Skeleton } from "@/src/components/ui/Skeleton";
 import { useAssignments } from "@/src/lib/queries/useAssignments";
-import { useMe } from "@/src/lib/queries/useMe";
+import { useSubjects } from "@/src/lib/queries/useSubjects";
 import { Download, FileText, Calendar, Clock, User } from "lucide-react";
 import dayjs from "@/src/lib/dayjs";
 import type { AssignmentItem } from "@/src/types";
@@ -32,19 +32,26 @@ const AssignmentsPage = () => {
   const [search, setSearch] = useState("");
   const [subjectId, setSubjectId] = useState("");
 
-  const { data: studentData } = useMe();
+  const {
+    data: subjectsData,
+    isLoading: isSubjectsLoading,
+    isError: isSubjectsError,
+  } = useSubjects();
   const { data, isLoading, isSessionLoading, isError } = useAssignments({
     search: search || undefined,
     subjectId: subjectId || undefined,
   });
 
-  const subjects = studentData?.subjects ?? [];
+  const subjects = subjectsData?.subjects ?? [];
   const assignments = data?.assignments ?? [];
   const totalCount = data?.totalCount ?? 0;
 
   const subjectOptions = [
     { value: "", label: "All Subjects" },
-    ...subjects.map((s) => ({ value: s._id, label: s.name })),
+    ...subjects.map((subject) => ({
+      value: subject.id,
+      label: subject.name,
+    })),
   ];
 
   const handleDownload = (assignment: AssignmentItem) => {
@@ -53,7 +60,8 @@ const AssignmentsPage = () => {
     }
   };
 
-  const isPageLoading = isLoading || isSessionLoading;
+  const isPageLoading = isLoading || isSessionLoading || isSubjectsLoading;
+  const isPageError = isError || isSubjectsError;
 
   return (
     <div className="space-y-6">
@@ -81,7 +89,7 @@ const AssignmentsPage = () => {
       </div>
 
       {/* Results count */}
-      {!isPageLoading && !isError && (
+      {!isPageLoading && !isPageError && (
         <p className="text-sm text-gray-500 dark:text-gray-400">
           {totalCount} assignment{totalCount !== 1 ? "s" : ""} found
         </p>
@@ -95,7 +103,7 @@ const AssignmentsPage = () => {
             <AssignmentCardSkeleton />
             <AssignmentCardSkeleton />
           </>
-        ) : isError ? (
+        ) : isPageError ? (
           <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 p-8 md:p-12 text-center">
             <FileText className="w-12 h-12 md:w-16 md:h-16 mx-auto mb-4 text-gray-400 dark:text-gray-600" />
             <h3 className="text-lg md:text-xl font-semibold text-gray-900 dark:text-white mb-2">

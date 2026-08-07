@@ -4,9 +4,10 @@ import type { StudentProfile } from "@/src/types";
 
 interface StatsGridProps {
   student: StudentProfile;
+  totalSubjects: number;
 }
 
-const StatsGrid = ({ student }: StatsGridProps) => {
+const StatsGrid = ({ student, totalSubjects }: StatsGridProps) => {
   const stats = [
     {
       label: "Class",
@@ -24,7 +25,7 @@ const StatsGrid = ({ student }: StatsGridProps) => {
     },
     {
       label: "Subjects",
-      value: (student.subjects?.length ?? 0).toString(),
+      value: totalSubjects.toString(),
       icon: BookOpen,
       bgColor: "bg-green-50 dark:bg-green-900/20",
       iconColor: "text-green-600 dark:text-green-400",

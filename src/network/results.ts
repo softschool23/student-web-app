@@ -1,9 +1,10 @@
-import { academicApiClient, platformApiClient } from "./axios";
 import type {
-  ResultPreview,
-  ResultDownloadResponse,
   PdfJobStatus,
+  ResultDownloadResponse,
+  ResultPreview,
 } from "@/src/types";
+
+import { academicApiClient, platformApiClient } from "./config";
 
 export const getResultPreview = async (
   termId: string,

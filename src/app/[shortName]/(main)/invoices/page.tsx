@@ -7,7 +7,7 @@ import { PageHeader, Select } from "@/src/components";
 import { useInvoices } from "@/src/lib/queries/useInvoices";
 import { useSchool } from "@/src/lib/context/SchoolContext";
 import { useVerifyPayment } from "@/src/lib/queries/usePayment";
-import type { InvoiceStatusFilter } from "@/src/lib/api/invoices";
+import type { InvoiceStatusFilter } from "@/src/network/invoices";
 import InvoiceSummaryCard from "./components/InvoiceSummaryCard";
 import InvoiceCard from "./components/InvoiceCard";
 import InvoiceListSkeleton from "./components/InvoiceListSkeleton";

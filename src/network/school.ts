@@ -1,5 +1,6 @@
-import { authApiClient } from "./axios";
 import type { SchoolBasicInfo } from "@/src/types";
+
+import { authApiClient } from "./config";
 
 export const fetchSchoolBasicInfo = async (
   shortName: string,

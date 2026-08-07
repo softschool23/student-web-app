@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getHolidays } from "@/src/lib/api/holidays";
+import { getHolidays } from "@/src/network/holidays";
 
 export const holidayQueryKeys = {
   list: (organisationId: string) => ["holidays", organisationId] as const,

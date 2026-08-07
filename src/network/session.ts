@@ -1,5 +1,6 @@
-import { academicApiClient } from "./axios";
 import type { SessionControl } from "@/src/types";
+
+import { academicApiClient } from "./config";
 
 export const getCurrentSession = async (
   organisationId: string,

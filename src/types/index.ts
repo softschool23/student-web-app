@@ -29,10 +29,31 @@ export interface LoginPayload {
   organisationId: string;
 }
 
-export interface LoginResponse {
+export interface AuthTokens {
   accessToken: string;
   refreshToken: string;
 }
+
+export interface AuthenticatedUser {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  middleName: string;
+  username: string;
+  address: string;
+  gender: string;
+  organisationId: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  roles: unknown[];
+}
+
+export interface LoginResponse extends AuthTokens {
+  user: AuthenticatedUser;
+}
+
+export type RefreshTokenResponse = AuthTokens;
 
 export interface StudentClass {
   _id: string;
@@ -68,16 +89,6 @@ export interface EnrollmentTerm {
   updatedAt: string;
 }
 
-export interface StudentSubjectItem {
-  _id: string;
-  name: string;
-  code?: string;
-  isCompulsory: boolean;
-  organisationId: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface StudentProfile {
   _id: string;
   firstName: string;
@@ -100,7 +111,6 @@ export interface StudentProfile {
   class?: StudentClass;
   section?: StudentSection;
   enrollmentTerm?: EnrollmentTerm;
-  subjects?: StudentSubjectItem[];
 }
 
 export interface SessionControlSession {

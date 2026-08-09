@@ -8,6 +8,7 @@ export const getRoutes = (shortName: string) => ({
   },
   main: {
     dashboard: `/${shortName}/dashboard`,
+    courseRegistration: `/${shortName}/course-registration`,
     subjects: `/${shortName}/subjects`,
     holidays: `/${shortName}/holidays`,
     attendance: `/${shortName}/attendance`,
@@ -34,6 +35,7 @@ export const routes = {
   },
   main: {
     dashboard: "/dashboard",
+    courseRegistration: "/course-registration",
     subjects: "/subjects",
     holidays: "/holidays",
     attendance: "/attendance",

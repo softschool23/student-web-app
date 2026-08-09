@@ -1,17 +1,9 @@
-import { useMe } from "@/src/lib/queries/useMe";
 import { useCurrentSession } from "@/src/lib/queries/useCurrentSession";
 import { useSubjects } from "@/src/lib/queries/useSubjects";
 import { useSchool } from "@/src/lib/context/SchoolContext";
 
 export const useDashboard = () => {
   const { school } = useSchool();
-
-  const {
-    data: student,
-    isLoading: isStudentLoading,
-    isError: isStudentError,
-    error: studentError,
-  } = useMe();
 
   const {
     data: sessionControl,
@@ -28,14 +20,12 @@ export const useDashboard = () => {
   } = useSubjects();
 
   return {
-    student,
     sessionControl,
     subjectsData,
-    isLoading: isStudentLoading || isSessionLoading || isSubjectsLoading,
-    isStudentLoading,
+    isLoading: isSessionLoading || isSubjectsLoading,
     isSessionLoading,
     isSubjectsLoading,
-    isError: isStudentError || isSessionError || isSubjectsError,
-    error: studentError ?? sessionError ?? subjectsError,
+    isError: isSessionError || isSubjectsError,
+    error: sessionError ?? subjectsError,
   };
 };

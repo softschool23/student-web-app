@@ -5,78 +5,34 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@/src/lib/utils";
 import {
-  LayoutDashboard,
   ChevronDown,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
   X,
-  BookOpen,
-  Calendar,
-  UserCheck,
-  FileText,
-  Award,
-  Receipt,
 } from "lucide-react";
 
-import { getRoutes } from "@/src/lib/routes";
 import { useSidebarStore } from "@/src/lib/stores/sidebarStore";
-import { useSchool } from "@/src/lib/context/SchoolContext"; // zustand store
+import { useSchool } from "@/src/lib/context/SchoolContext";
+import {
+  getStudentOrganisationType,
+  getStudentPortalAccess,
+  type StudentPortalNavItem,
+} from "@/src/lib/studentPortal";
+import type { StudentProfile } from "@/src/types";
 
-interface SubNavItem {
-  label: string;
-  href: string;
-  icon?: React.ElementType;
+interface SidebarProps {
+  student?: StudentProfile;
 }
 
-interface NavItem {
-  label: string;
-  href: string;
-  icon: React.ElementType;
-  children?: SubNavItem[];
-}
-
-const Sidebar = () => {
+const Sidebar = ({ student }: SidebarProps) => {
   const { shortName } = useSchool();
-  const routes = getRoutes(shortName);
-
-  const navItems: NavItem[] = [
-    {
-      label: "Dashboard",
-      href: routes.main.dashboard,
-      icon: LayoutDashboard,
-    },
-    {
-      label: "Subjects",
-      href: routes.main.subjects,
-      icon: BookOpen,
-    },
-    {
-      label: "Assignments",
-      href: routes.main.assignments,
-      icon: FileText,
-    },
-    {
-      label: "Results",
-      href: routes.main.results,
-      icon: Award,
-    },
-    {
-      label: "Invoices",
-      href: routes.main.invoices,
-      icon: Receipt,
-    },
-    // {
-    //   label: "Attendance",
-    //   href: routes.main.attendance,
-    //   icon: UserCheck,
-    // },
-    {
-      label: "Holidays",
-      href: routes.main.holidays,
-      icon: Calendar,
-    },
-  ];
+  const organisationType = student
+    ? getStudentOrganisationType(student)
+    : undefined;
+  const navItems = organisationType
+    ? getStudentPortalAccess(shortName, organisationType).navItems
+    : [];
   const pathname = usePathname();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
   const { isOpen, isCollapsed, toggleCollapsed, setOpen } = useSidebarStore();
@@ -109,7 +65,7 @@ const Sidebar = () => {
     return pathname === href || pathname.startsWith(href + "/");
   };
 
-  const isParentActive = (item: NavItem) => {
+  const isParentActive = (item: StudentPortalNavItem) => {
     if (isActive(item.href)) return true;
     if (item.children) {
       return item.children.some((child) => isActive(child.href));

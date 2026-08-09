@@ -8,6 +8,7 @@ import { getRoutes } from "@/src/lib/routes";
 import { useSidebarStore } from "@/src/lib/stores/sidebarStore";
 import { useSchool } from "@/src/lib/context/SchoolContext";
 import { clearAuthTokens } from "@/src/network/config";
+import { getStudentIdentifier } from "@/src/lib/studentPortal";
 import Logo from "../shared/Logo";
 import type { StudentProfile } from "@/src/types";
 
@@ -28,6 +29,7 @@ const Header = ({ student }: HeaderProps) => {
   const displayName = student
     ? `${student.firstName} ${student.lastName}`.trim()
     : null;
+  const studentIdentifier = student ? getStudentIdentifier(student) : null;
   const initials = displayName
     ? displayName
         .split(" ")
@@ -90,7 +92,7 @@ const Header = ({ student }: HeaderProps) => {
                   {displayName}
                 </p>
                 <p className="text-[11px] md:text-xs text-muted-foreground uppercase tracking-wide">
-                  {student?.studentNumber}
+                  {studentIdentifier}
                 </p>
               </>
             ) : (
@@ -123,7 +125,7 @@ const Header = ({ student }: HeaderProps) => {
                     {displayName}
                   </p>
                   <p className="text-xs text-muted-foreground uppercase tracking-wide">
-                    {student?.studentNumber}
+                    {studentIdentifier}
                   </p>
                 </div>
               )}

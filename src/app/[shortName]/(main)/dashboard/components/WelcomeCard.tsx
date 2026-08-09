@@ -1,8 +1,8 @@
 import { User } from "lucide-react";
-import type { StudentProfile } from "@/src/types";
+import type { K12StudentProfile } from "@/src/types";
 
 interface WelcomeCardProps {
-  student: StudentProfile;
+  student: K12StudentProfile;
 }
 
 const WelcomeCard = ({ student }: WelcomeCardProps) => {

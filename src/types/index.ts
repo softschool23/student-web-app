@@ -89,13 +89,31 @@ export interface EnrollmentTerm {
   updatedAt: string;
 }
 
-export interface StudentProfile {
+export enum StudentOrganisationType {
+  K12 = "k12",
+  College = "college",
+}
+
+interface StudentProfileBase {
   _id: string;
+  organisationId: string;
   firstName: string;
   middleName: string;
   lastName: string;
-  dob: string;
   gender: string;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface K12StudentGuardian {
+  email: string;
+}
+
+export interface K12StudentProfile extends StudentProfileBase {
+  org_type: StudentOrganisationType.K12;
+  dob: string;
   address: string;
   enrollmentTermId: string;
   enrollmentClassId: string;
@@ -103,14 +121,168 @@ export interface StudentProfile {
   currentClassId: string;
   currentSectionId: string;
   medicalInfo: string;
-  organisationId: string;
   studentNumber: string;
-  status: string;
-  createdAt: string;
-  updatedAt: string;
+  parentOrGuardianInfo?: K12StudentGuardian;
   class?: StudentClass;
   section?: StudentSection;
   enrollmentTerm?: EnrollmentTerm;
+}
+
+export interface CollegeStudentGuardian {
+  fullName: string;
+  relationship: string;
+  email: string;
+  phoneNumber: string;
+}
+
+export interface CollegeFaculty {
+  _id: string;
+  organisationId: string;
+  name: string;
+  shortCode: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface CollegeDepartment {
+  _id: string;
+  organisationId: string;
+  facultyId: string;
+  name: string;
+  shortCode: string;
+  hasPrograms: boolean;
+  gradingScaleId: string;
+  assessmentStructureId: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface CollegeCurrentLevel {
+  _id: string;
+  organisationId: string;
+  departmentId: string;
+  name: string;
+  sortOrder: number;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface CollegeStudentProfile extends StudentProfileBase {
+  org_type: StudentOrganisationType.College;
+  userId: string;
+  email: string;
+  phoneNumber: string;
+  dateOfBirth: string;
+  contactAddress: string;
+  admissionDate: string;
+  admissionYear: number;
+  admissionMode: string;
+  registrationNumber: string;
+  facultyId: string;
+  departmentId: string;
+  currentLevelId: string;
+  guardian: CollegeStudentGuardian;
+  knownHealthStatus: string;
+  photo: string;
+  faculty?: CollegeFaculty;
+  department?: CollegeDepartment;
+  currentLevel?: CollegeCurrentLevel;
+}
+
+export type StudentProfile = K12StudentProfile | CollegeStudentProfile;
+
+export enum CourseClassification {
+  Core = "core",
+  Elective = "elective",
+}
+
+export enum CourseEnrollmentMode {
+  AutoAdd = "auto_add",
+  StudentApplication = "student_application",
+}
+
+export interface CollegeCourse {
+  _id: string;
+  organisationId: string;
+  code: string;
+  title: string;
+  creditUnit: number;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface AvailableCourseItem {
+  course: CollegeCourse;
+  classification: CourseClassification;
+  enrollmentMode: CourseEnrollmentMode;
+  required: boolean;
+  selected: boolean;
+}
+
+export interface CourseRegistrationControl {
+  enabled: boolean;
+  source: string;
+}
+
+export interface RegisteredCourse {
+  allocationId: string;
+  courseId: string;
+  code: string;
+  title: string;
+  creditUnit: number;
+  classification: CourseClassification;
+  _id: string;
+  id: string;
+}
+
+export interface CourseRegistration {
+  _id: string;
+  id: string;
+  organisationId: string;
+  studentId: string;
+  academicLevelId: string;
+  sessionId: string;
+  semesterId: string;
+  status: string;
+  totalCreditUnits: number;
+  approvals: unknown[];
+  courses: RegisteredCourse[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface AvailableCoursesResponse {
+  studentId: string;
+  academicLevelId: string;
+  sessionId: string;
+  semesterId: string;
+  registrationControl: CourseRegistrationControl;
+  canEdit: boolean;
+  maxCreditUnits: number;
+  registration: CourseRegistration | null;
+  courses: AvailableCourseItem[];
+}
+
+export interface StudentCourseRegistrationResponse
+  extends AvailableCoursesResponse {
+  org_type: StudentOrganisationType.College;
+}
+
+export interface AvailableCoursesParams {
+  organisationId: string;
+  studentId: string;
+  sessionId: string;
+  semesterId: string;
+}
+
+export interface SaveCourseRegistrationDraftPayload
+  extends AvailableCoursesParams {
+  selectedCourseIds: string[];
 }
 
 export interface SessionControlSession {

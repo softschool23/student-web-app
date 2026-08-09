@@ -1,12 +1,19 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import Sidebar from "@/src/components/layout/Sidebar";
 import Header from "@/src/components/layout/Header";
 import DownloadProgressBanner from "@/src/components/layout/DownloadProgressBanner";
 import { cn } from "@/src/lib/utils";
 import { useMe } from "@/src/lib/queries/useMe";
+import { useSchool } from "@/src/lib/context/SchoolContext";
+import {
+  getStudentOrganisationType,
+  getStudentPortalAccess,
+  isStudentPortalRouteAllowed,
+} from "@/src/lib/studentPortal";
 
 const getPageTitle = (pathname: string): string => {
   const segments = pathname.split("/").filter(Boolean);
@@ -39,7 +46,20 @@ const getPageTitle = (pathname: string): string => {
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
   const pageTitle = getPageTitle(pathname);
-  const { data: student } = useMe();
+  const { shortName } = useSchool();
+  const { data: student, isLoading: isStudentLoading } = useMe();
+
+  if (student) {
+    const organisationType = getStudentOrganisationType(student);
+    const { allowedRoutes } = getStudentPortalAccess(
+      shortName,
+      organisationType,
+    );
+
+    if (!isStudentPortalRouteAllowed(pathname, allowedRoutes)) {
+      notFound();
+    }
+  }
 
   return (
     <div className="h-screen bg-background dark:bg-gray-950 flex flex-col overflow-hidden">
@@ -51,7 +71,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
-        <Sidebar />
+        <Sidebar student={student} />
 
         {/* Main Content Area */}
         <div
@@ -62,7 +82,15 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         >
           {/* Page Content */}
           <main className="flex-1 overflow-y-auto">
-            <div className="p-4 md:p-6 lg:p-8 space-y-6">{children}</div>
+            <div className="p-4 md:p-6 lg:p-8 space-y-6">
+              {isStudentLoading ? (
+                <div className="flex min-h-64 items-center justify-center text-sm text-muted-foreground">
+                  Loading student profile...
+                </div>
+              ) : (
+                children
+              )}
+            </div>
           </main>
         </div>
       </div>

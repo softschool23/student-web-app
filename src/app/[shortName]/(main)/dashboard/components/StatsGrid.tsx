@@ -1,9 +1,9 @@
 import { BookOpen, Users, Layers } from "lucide-react";
 import { cn } from "@/src/lib/utils";
-import type { StudentProfile } from "@/src/types";
+import type { K12StudentProfile } from "@/src/types";
 
 interface StatsGridProps {
-  student: StudentProfile;
+  student: K12StudentProfile;
   totalSubjects: number;
 }
 

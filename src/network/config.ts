@@ -117,8 +117,10 @@ const attachTokenRefresh = (client: AxiosInstance) => {
       originalRequest._retry = true;
 
       try {
-        const { accessToken } = await getRefreshedTokens();
-        originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+        const response = await getRefreshedTokens();
+        console.log(response);
+        originalRequest.headers.Authorization = `Bearer ${response.accessToken}`;
+        console.log(response.accessToken);
         return client(originalRequest);
       } catch (refreshError) {
         clearAuthTokens();

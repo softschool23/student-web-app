@@ -1,6 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import { useSchool } from "@/src/lib/context/SchoolContext";
 import { useCurrentSession } from "@/src/lib/queries/useCurrentSession";
+import { useStudentQuery } from "@/src/lib/queries/useStudentQuery";
 import { getAssignments } from "@/src/network/assignments";
 import type { AssignmentParams } from "@/src/types";
 
@@ -11,10 +10,8 @@ export const assignmentQueryKeys = {
 export const useAssignments = (
   filters: Pick<AssignmentParams, "search" | "subjectId"> = {},
 ) => {
-  const { school } = useSchool();
-
   const { data: sessionControl, isLoading: isSessionLoading } =
-    useCurrentSession(school._id);
+    useCurrentSession();
 
   const termId = sessionControl?.currentTerm?._id ?? "";
   const sessionId = sessionControl?.currentSession?._id ?? "";
@@ -26,7 +23,7 @@ export const useAssignments = (
     subjectId: filters.subjectId || undefined,
   };
 
-  const query = useQuery({
+  const query = useStudentQuery({
     queryKey: assignmentQueryKeys.list(params),
     queryFn: () => getAssignments(params),
     enabled: !!termId && !!sessionId,

@@ -1,4 +1,8 @@
-import type { StudentProfile, SubjectsResponse } from "@/src/types";
+import type {
+  StudentProfile,
+  SubjectsResponse,
+  UpdateCollegeStudentProfilePayload,
+} from "@/src/types";
 
 import { academicApiClient } from "./config";
 
@@ -13,4 +17,11 @@ export const getSubjects = async (): Promise<SubjectsResponse> => {
     "/student-portal/subjects",
   );
   return data;
+};
+
+export const updateCollegeStudentProfile = async (
+  studentId: string,
+  payload: UpdateCollegeStudentProfilePayload,
+): Promise<void> => {
+  await academicApiClient.patch(`/college/students/${studentId}`, payload);
 };

@@ -3,7 +3,6 @@
 import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { useSchool } from "@/src/lib/context/SchoolContext";
 import { useCurrentSession } from "@/src/lib/queries/useCurrentSession";
 import { useResultPreview } from "@/src/lib/queries/useResultPreview";
 import { useJobStatus } from "@/src/lib/queries/useJobStatus";
@@ -11,14 +10,12 @@ import { useResultDownloadStore } from "@/src/lib/stores/resultDownloadStore";
 import { triggerResultDownload } from "@/src/network/results";
 
 export const useResults = () => {
-  const { school } = useSchool();
-
   // ── Session / Term ──────────────────────────────────────────────────────────
   const {
     data: sessionControl,
     isLoading: isSessionLoading,
     isError: isSessionError,
-  } = useCurrentSession(school._id);
+  } = useCurrentSession();
 
   const termId = sessionControl?.currentTerm?._id ?? "";
   const sessionId = sessionControl?.currentSession?._id ?? "";

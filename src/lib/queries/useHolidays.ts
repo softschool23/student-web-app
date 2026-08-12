@@ -1,15 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
 import { getHolidays } from "@/src/network/holidays";
+import { useStudentQuery } from "@/src/lib/queries/useStudentQuery";
 
 export const holidayQueryKeys = {
-  list: (organisationId: string) => ["holidays", organisationId] as const,
+  list: ["holidays"] as const,
 };
 
-export const useHolidays = (organisationId: string) => {
-  return useQuery({
-    queryKey: holidayQueryKeys.list(organisationId),
-    queryFn: () => getHolidays(organisationId),
-    enabled: !!organisationId,
+export const useHolidays = () => {
+  return useStudentQuery({
+    identifiers: ["organisationId"],
+    queryKey: holidayQueryKeys.list,
+    queryFn: ({ organisationId }) => getHolidays(organisationId),
     staleTime: 1000 * 60 * 10,
     retry: false,
   });

@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
 import { fetchSchoolBasicInfo } from "@/src/network/school";
+import { useQuery } from "@tanstack/react-query";
 
 export const schoolQueryKeys = {
   basicInfo: (shortName: string) =>

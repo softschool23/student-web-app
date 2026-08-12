@@ -2,13 +2,7 @@
 
 import { cn } from "@/src/lib/utils";
 import { CheckCircle2, XCircle } from "lucide-react";
-
-interface PasswordStrength {
-  score: number;
-  label: string;
-  color: string;
-  feedback: string[];
-}
+import type { PasswordStrength } from "@/src/lib/validation/password";
 
 interface PasswordStrengthIndicatorProps {
   password: string;
@@ -61,17 +55,17 @@ const PasswordStrengthIndicator = ({
           Password Requirements:
         </p>
         <ul className="space-y-1">
-          {passwordStrength.feedback.map((feedback, index) => (
+          {passwordStrength.requirements.map((requirement) => (
             <li
-              key={index}
+              key={requirement.label}
               className="text-xs text-gray-600 dark:text-gray-400 flex items-center gap-2"
             >
-              {passwordStrength.score >= 4 ? (
+              {requirement.met ? (
                 <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
               ) : (
                 <XCircle className="w-4 h-4 text-gray-400 flex-shrink-0" />
               )}
-              {feedback}
+              {requirement.label}
             </li>
           ))}
         </ul>

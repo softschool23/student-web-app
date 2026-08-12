@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useStudentQuery } from "@/src/lib/queries/useStudentQuery";
 import { getResultPreview } from "@/src/network/results";
 
 export const resultQueryKeys = {
@@ -7,7 +7,7 @@ export const resultQueryKeys = {
 };
 
 export const useResultPreview = (termId: string, sessionId: string) => {
-  return useQuery({
+  return useStudentQuery({
     queryKey: resultQueryKeys.preview(termId, sessionId),
     queryFn: () => getResultPreview(termId, sessionId),
     enabled: !!termId && !!sessionId,

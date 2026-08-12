@@ -67,7 +67,10 @@ export const getStudentPortalAccess = (
 
     return {
       navItems,
-      allowedRoutes: navItems.map((item) => item.href),
+      allowedRoutes: [
+        ...navItems.map((item) => item.href),
+        routes.main.profile,
+      ],
     };
   }
 
@@ -106,7 +109,10 @@ export const getStudentPortalAccess = (
 
   return {
     navItems,
-    allowedRoutes: navItems.map((item) => item.href),
+    allowedRoutes: [
+      ...navItems.map((item) => item.href),
+      routes.main.profile,
+    ],
   };
 };
 

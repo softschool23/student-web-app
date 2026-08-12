@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
 import { getPdfJobStatus } from "@/src/network/results";
 import type { PdfJobStatus } from "@/src/types";
+import { useQuery } from "@tanstack/react-query";
 
 export const jobStatusQueryKeys = {
   status: (jobId: string) => ["pdf-job", "status", jobId] as const,

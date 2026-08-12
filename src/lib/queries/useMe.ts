@@ -1,7 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-
 import { getAccessToken } from "@/src/network/config";
 import { getMe } from "@/src/network/student";
+import { useQuery } from "@tanstack/react-query";
 
 export const studentQueryKeys = {
   me: ["student", "me"] as const,

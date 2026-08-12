@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { notFound } from "next/navigation";
 
@@ -9,6 +10,7 @@ import DownloadProgressBanner from "@/src/components/layout/DownloadProgressBann
 import { cn } from "@/src/lib/utils";
 import { useMe } from "@/src/lib/queries/useMe";
 import { useSchool } from "@/src/lib/context/SchoolContext";
+import { useUserStore } from "@/src/lib/stores/userStore";
 import {
   getStudentOrganisationType,
   getStudentPortalAccess,
@@ -48,6 +50,19 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const pageTitle = getPageTitle(pathname);
   const { shortName } = useSchool();
   const { data: student, isLoading: isStudentLoading } = useMe();
+  const setUser = useUserStore((state) => state.setUser);
+  const clearUser = useUserStore((state) => state.clearUser);
+
+  useEffect(() => {
+    if (student) {
+      setUser(student);
+      return;
+    }
+
+    if (!isStudentLoading) {
+      clearUser();
+    }
+  }, [clearUser, isStudentLoading, setUser, student]);
 
   if (student) {
     const organisationType = getStudentOrganisationType(student);

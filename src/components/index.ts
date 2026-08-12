@@ -11,6 +11,7 @@ export { default as OTPInput } from "./forms/OTPInput";
 export { default as AuthFormContainer } from "./forms/AuthFormContainer";
 export { default as PasswordStrengthIndicator } from "./forms/PasswordStrengthIndicator";
 export { default as SearchInput } from "./forms/SearchInput";
+export { PictureUpload } from "./forms/PictureUpload";
 
 // UI Components
 export {

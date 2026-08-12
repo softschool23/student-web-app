@@ -1,8 +1,20 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
 import { School, ArrowRight } from "lucide-react";
 
+const fallbackOrigin = "https://your-domain.com";
+const subscribeToOrigin = () => () => {};
+const getBrowserOrigin = () => window.location.origin;
+const getServerOrigin = () => fallbackOrigin;
+
 const HomePage = () => {
+  const origin = useSyncExternalStore(
+    subscribeToOrigin,
+    getBrowserOrigin,
+    getServerOrigin,
+  );
+
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="max-w-lg w-full text-center space-y-8">
@@ -36,10 +48,7 @@ const HomePage = () => {
           {/* URL example */}
           <div className="bg-muted rounded-lg px-4 py-3 flex items-center gap-2 font-mono text-sm overflow-x-auto">
             <span className="text-muted-foreground shrink-0">
-              {typeof window !== "undefined"
-                ? window.location.origin
-                : "https://your-domain.com"}
-              /
+              {origin}/
             </span>
             <span className="text-primary font-semibold shrink-0">
               your-school-code

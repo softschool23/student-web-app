@@ -23,5 +23,5 @@ export const updateCollegeStudentProfile = async (
   studentId: string,
   payload: UpdateCollegeStudentProfilePayload,
 ): Promise<void> => {
-  await academicApiClient.patch(`/college/students/${studentId}`, payload);
+  await academicApiClient.patch(`/student-portal/${studentId}`, payload);
 };

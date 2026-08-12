@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import { studentQueryKeys } from "@/src/lib/queries/useMe";
-import { useStudentIdentifiers } from "@/src/lib/queries/useStudentQuery";
 import { changePassword } from "@/src/network/auth";
 import { updateCollegeStudentProfile } from "@/src/network/student";
 import type {
@@ -19,15 +18,10 @@ const getMutationErrorMessage = (
 
 export const useUpdateStudentProfile = () => {
   const queryClient = useQueryClient();
-  const { studentId } = useStudentIdentifiers(["studentId"]);
 
   return useMutation({
     mutationFn: (payload: UpdateCollegeStudentProfilePayload) => {
-      if (!studentId) {
-        throw new Error("Student information is unavailable");
-      }
-
-      return updateCollegeStudentProfile(studentId, payload);
+      return updateCollegeStudentProfile(payload);
     },
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: studentQueryKeys.me });

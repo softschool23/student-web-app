@@ -20,8 +20,7 @@ export const getSubjects = async (): Promise<SubjectsResponse> => {
 };
 
 export const updateCollegeStudentProfile = async (
-  studentId: string,
   payload: UpdateCollegeStudentProfilePayload,
 ): Promise<void> => {
-  await academicApiClient.patch(`/student-portal/${studentId}`, payload);
+  await academicApiClient.patch(`/student-portal/me`, payload);
 };

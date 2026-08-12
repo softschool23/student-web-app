@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useStudentQuery } from "@/src/lib/queries/useStudentQuery";
 import { getSubjects } from "@/src/network/student";
 
 export const subjectQueryKeys = {
@@ -6,7 +6,7 @@ export const subjectQueryKeys = {
 };
 
 export const useSubjects = () => {
-  return useQuery({
+  return useStudentQuery({
     queryKey: subjectQueryKeys.list,
     queryFn: getSubjects,
     staleTime: 1000 * 60 * 5,

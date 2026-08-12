@@ -108,7 +108,7 @@ const attachTokenRefresh = (client: AxiosInstance) => {
         | RetryableRequestConfig
         | undefined;
       const status = error.response?.status;
-      const shouldRefresh = status === 401 || status === 403;
+      const shouldRefresh = status === 403;
 
       if (!originalRequest || !shouldRefresh || originalRequest._retry) {
         return Promise.reject(error);
@@ -131,7 +131,10 @@ const attachTokenRefresh = (client: AxiosInstance) => {
   );
 };
 
-[academicApiClient, platformApiClient].forEach((client) => {
+[authApiClient, academicApiClient, platformApiClient].forEach((client) => {
   attachAccessToken(client);
+});
+
+[academicApiClient, platformApiClient].forEach((client) => {
   attachTokenRefresh(client);
 });

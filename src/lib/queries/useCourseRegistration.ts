@@ -1,6 +1,10 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
+import {
+  useStudentIdentifiers,
+  useStudentQuery,
+} from "@/src/lib/queries/useStudentQuery";
 import {
   getAvailableCourses,
   getCourseRegistration,
@@ -8,41 +12,47 @@ import {
   submitCourseRegistration,
 } from "@/src/network/courseRegistrations";
 import type {
-  AvailableCoursesParams,
-  SaveCourseRegistrationDraftPayload,
+  CourseRegistrationPeriodParams,
+  SaveCourseRegistrationDraftInput,
 } from "@/src/types";
 
 export const courseRegistrationQueryKeys = {
   all: ["college", "course-registrations"] as const,
-  availableCourses: (params?: AvailableCoursesParams) =>
+  availableCourses: (params?: CourseRegistrationPeriodParams) =>
     [...courseRegistrationQueryKeys.all, "available-courses", params] as const,
-  registration: (params?: AvailableCoursesParams) =>
+  registration: (params?: CourseRegistrationPeriodParams) =>
     [...courseRegistrationQueryKeys.all, "registration", params] as const,
 };
 
-export const useCourseRegistration = (params?: AvailableCoursesParams) =>
-  useQuery({
+export const useCourseRegistration = (
+  params?: CourseRegistrationPeriodParams,
+) =>
+  useStudentQuery({
+    identifiers: ["organisationId", "studentId"],
     queryKey: courseRegistrationQueryKeys.registration(params),
-    queryFn: () => {
+    queryFn: (identifiers) => {
       if (!params) {
         throw new Error("Course registration parameters are unavailable");
       }
 
-      return getCourseRegistration(params);
+      return getCourseRegistration({ ...identifiers, ...params });
     },
     enabled: !!params,
     staleTime: 1000 * 60 * 5,
   });
 
-export const useAvailableCourses = (params?: AvailableCoursesParams) =>
-  useQuery({
+export const useAvailableCourses = (
+  params?: CourseRegistrationPeriodParams,
+) =>
+  useStudentQuery({
+    identifiers: ["organisationId", "studentId"],
     queryKey: courseRegistrationQueryKeys.availableCourses(params),
-    queryFn: () => {
+    queryFn: (identifiers) => {
       if (!params) {
         throw new Error("Course registration parameters are unavailable");
       }
 
-      return getAvailableCourses(params);
+      return getAvailableCourses({ ...identifiers, ...params });
     },
     enabled: !!params,
     staleTime: 1000 * 60 * 5,
@@ -54,10 +64,19 @@ const getMutationErrorMessage = (error: unknown): string =>
 
 export const useSaveCourseRegistrationDraft = () => {
   const queryClient = useQueryClient();
+  const identifiers = useStudentIdentifiers([
+    "organisationId",
+    "studentId",
+  ]);
 
   return useMutation({
-    mutationFn: (payload: SaveCourseRegistrationDraftPayload) =>
-      saveCourseRegistrationDraft(payload),
+    mutationFn: (payload: SaveCourseRegistrationDraftInput) => {
+      if (!identifiers.organisationId || !identifiers.studentId) {
+        throw new Error("Student information is unavailable");
+      }
+
+      return saveCourseRegistrationDraft({ ...identifiers, ...payload });
+    },
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: courseRegistrationQueryKeys.all,

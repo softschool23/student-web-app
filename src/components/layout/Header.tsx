@@ -1,14 +1,17 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Menu, LogOut } from "lucide-react";
+import { useQueryClient } from "@tanstack/react-query";
+import { LogOut, Menu, UserRound } from "lucide-react";
 import { cn } from "@/src/lib/utils";
 import { getRoutes } from "@/src/lib/routes";
 import { useSidebarStore } from "@/src/lib/stores/sidebarStore";
 import { useSchool } from "@/src/lib/context/SchoolContext";
 import { clearAuthTokens } from "@/src/network/config";
 import { getStudentIdentifier } from "@/src/lib/studentPortal";
+import { useUserStore } from "@/src/lib/stores/userStore";
 import Logo from "../shared/Logo";
 import type { StudentProfile } from "@/src/types";
 
@@ -22,6 +25,8 @@ const Header = ({ student }: HeaderProps) => {
   const { shortName, school } = useSchool();
   const routes = getRoutes(shortName);
   const router = useRouter();
+  const queryClient = useQueryClient();
+  const clearUser = useUserStore((state) => state.clearUser);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -55,6 +60,8 @@ const Header = ({ student }: HeaderProps) => {
 
   const handleLogout = () => {
     clearAuthTokens();
+    clearUser();
+    queryClient.clear();
     router.replace(routes.auth.login);
   };
 
@@ -129,6 +136,14 @@ const Header = ({ student }: HeaderProps) => {
                   </p>
                 </div>
               )}
+              <Link
+                href={routes.main.profile}
+                onClick={() => setDropdownOpen(false)}
+                className="flex items-center gap-2 px-4 py-2 text-sm text-foreground transition-colors hover:bg-muted"
+              >
+                <UserRound className="h-4 w-4" />
+                My profile
+              </Link>
               <button
                 onClick={handleLogout}
                 className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"

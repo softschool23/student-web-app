@@ -3,7 +3,6 @@
 import dayjs from "dayjs";
 import { AlertCircle, CalendarDays } from "lucide-react";
 import { PageHeader } from "@/src/components";
-import { useSchool } from "@/src/lib/context/SchoolContext";
 import { useHolidays } from "@/src/lib/queries/useHolidays";
 import HolidayCalendar from "./components/HolidayCalendar";
 import HolidayCalendarSkeleton from "./components/HolidayCalendarSkeleton";
@@ -11,8 +10,7 @@ import UpcomingHolidayList from "./components/UpcomingHolidayList";
 import UpcomingHolidayListSkeleton from "./components/UpcomingHolidayListSkeleton";
 
 const HolidaysPage = () => {
-  const { school } = useSchool();
-  const { data: holidays, isLoading, isError, error } = useHolidays(school._id);
+  const { data: holidays, isLoading, isError, error } = useHolidays();
 
   const today = dayjs().startOf("day");
 

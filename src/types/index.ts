@@ -164,10 +164,17 @@ export interface CollegeCurrentLevel {
   organisationId: string;
   departmentId: string;
   name: string;
+  shortCode?: string;
   sortOrder: number;
   createdAt: string;
   updatedAt: string;
   __v: number;
+}
+
+export interface CollegeProgram {
+  _id: string;
+  name: string;
+  shortCode: string;
 }
 
 export interface CollegeStudentProfile extends StudentProfileBase {
@@ -183,16 +190,44 @@ export interface CollegeStudentProfile extends StudentProfileBase {
   registrationNumber: string;
   facultyId: string;
   departmentId: string;
+  programId?: string;
   currentLevelId: string;
   guardian: CollegeStudentGuardian;
   knownHealthStatus: string;
   photo: string;
   faculty?: CollegeFaculty;
   department?: CollegeDepartment;
+  program?: CollegeProgram;
   currentLevel?: CollegeCurrentLevel;
 }
 
+export interface UploadPictureParams {
+  file: File;
+  organisationShortName: string;
+  productName?: string;
+  type?: string;
+}
+
 export type StudentProfile = K12StudentProfile | CollegeStudentProfile;
+
+export interface UpdateCollegeStudentProfilePayload {
+  firstName: string;
+  middleName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  dateOfBirth: string;
+  gender: "male" | "female";
+  contactAddress: string;
+  guardian: CollegeStudentGuardian;
+  knownHealthStatus: string;
+  photo: string;
+}
+
+export interface ChangePasswordPayload {
+  oldPassword: string;
+  newPassword: string;
+}
 
 export enum CourseClassification {
   Core = "core",
@@ -280,10 +315,20 @@ export interface AvailableCoursesParams {
   semesterId: string;
 }
 
+export type CourseRegistrationPeriodParams = Omit<
+  AvailableCoursesParams,
+  "organisationId" | "studentId"
+>;
+
 export interface SaveCourseRegistrationDraftPayload
   extends AvailableCoursesParams {
   selectedCourseIds: string[];
 }
+
+export type SaveCourseRegistrationDraftInput = Omit<
+  SaveCourseRegistrationDraftPayload,
+  "organisationId" | "studentId"
+>;
 
 export interface SessionControlSession {
   _id: string;

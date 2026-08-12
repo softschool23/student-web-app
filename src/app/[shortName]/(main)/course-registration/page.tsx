@@ -18,7 +18,7 @@ import {
 import { useMe } from "@/src/lib/queries/useMe";
 import {
   StudentOrganisationType,
-  type AvailableCoursesParams,
+  type CourseRegistrationPeriodParams,
 } from "@/src/types";
 import CourseRegistrationForm from "./components/CourseRegistrationForm";
 import CourseRegistrationFilters from "./components/CourseRegistrationFilters";
@@ -40,43 +40,40 @@ const CourseRegistrationPage = () => {
   } = useMe();
   const isCollegeStudent =
     student?.org_type === StudentOrganisationType.College;
-  const organisationId = isCollegeStudent ? student.organisationId : "";
 
   const {
     data: sessionControl,
     isLoading: isSessionLoading,
     isError: isSessionError,
     refetch: refetchSession,
-  } = useCurrentSession(organisationId);
+  } = useCurrentSession();
 
   const {
     data: sessions = [],
     isLoading: isSessionsLoading,
     isError: isSessionsError,
     refetch: refetchSessions,
-  } = useSessions(organisationId);
+  } = useSessions();
   const {
     data: terms = [],
     isLoading: isTermsLoading,
     isError: isTermsError,
     refetch: refetchTerms,
-  } = useTerms(organisationId);
+  } = useTerms();
 
   const sessionId =
     selectedSessionId ?? sessionControl?.currentSession._id ?? "";
   const semesterId =
     selectedSemesterId ?? sessionControl?.currentTerm._id ?? "";
 
-  const params = useMemo<AvailableCoursesParams | undefined>(() => {
+  const params = useMemo<CourseRegistrationPeriodParams | undefined>(() => {
     if (!isCollegeStudent || !sessionId || !semesterId) return undefined;
 
     return {
-      organisationId: student.organisationId,
-      studentId: student._id,
       sessionId,
       semesterId,
     };
-  }, [isCollegeStudent, semesterId, sessionId, student]);
+  }, [isCollegeStudent, semesterId, sessionId]);
 
   const {
     data: savedRegistrationData,

@@ -1,42 +1,38 @@
-import { useQuery } from "@tanstack/react-query";
 import {
   getCurrentSession,
   getSessions,
   getTerms,
 } from "@/src/network/session";
+import { useStudentQuery } from "@/src/lib/queries/useStudentQuery";
 
 export const sessionQueryKeys = {
   all: ["session"] as const,
-  current: (organisationId: string) =>
-    [...sessionQueryKeys.all, "current", organisationId] as const,
-  lists: () => [...sessionQueryKeys.all, "list"] as const,
-  list: (organisationId: string) =>
-    [...sessionQueryKeys.lists(), organisationId] as const,
-  terms: (organisationId: string) =>
-    [...sessionQueryKeys.all, "terms", organisationId] as const,
+  current: ["session", "current"] as const,
+  list: ["session", "list"] as const,
+  terms: ["session", "terms"] as const,
 };
 
-export const useCurrentSession = (organisationId: string) => {
-  return useQuery({
-    queryKey: sessionQueryKeys.current(organisationId),
-    queryFn: () => getCurrentSession(organisationId),
+export const useCurrentSession = () => {
+  return useStudentQuery({
+    identifiers: ["organisationId"],
+    queryKey: sessionQueryKeys.current,
+    queryFn: ({ organisationId }) => getCurrentSession(organisationId),
     staleTime: 5 * 60 * 1000,
-    enabled: !!organisationId,
   });
 };
 
-export const useSessions = (organisationId: string) =>
-  useQuery({
-    queryKey: sessionQueryKeys.list(organisationId),
-    queryFn: () => getSessions(organisationId),
+export const useSessions = () =>
+  useStudentQuery({
+    identifiers: ["organisationId"],
+    queryKey: sessionQueryKeys.list,
+    queryFn: ({ organisationId }) => getSessions(organisationId),
     staleTime: 5 * 60 * 1000,
-    enabled: !!organisationId,
   });
 
-export const useTerms = (organisationId: string) =>
-  useQuery({
-    queryKey: sessionQueryKeys.terms(organisationId),
-    queryFn: () => getTerms(organisationId),
+export const useTerms = () =>
+  useStudentQuery({
+    identifiers: ["organisationId"],
+    queryKey: sessionQueryKeys.terms,
+    queryFn: ({ organisationId }) => getTerms(organisationId),
     staleTime: 5 * 60 * 1000,
-    enabled: !!organisationId,
   });

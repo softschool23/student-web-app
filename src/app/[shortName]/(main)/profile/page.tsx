@@ -7,6 +7,7 @@ import { Button, PageHeader, Tabs, type Tab } from "@/src/components";
 import { useMe } from "@/src/lib/queries/useMe";
 import { StudentOrganisationType } from "@/src/types";
 import ChangePasswordForm from "@/src/app/[shortName]/(main)/profile/components/ChangePasswordForm";
+import PrintBiodataButton from "@/src/app/[shortName]/(main)/profile/components/PrintBiodataButton";
 import ProfileForm from "@/src/app/[shortName]/(main)/profile/components/ProfileForm";
 import ProfileOverview from "@/src/app/[shortName]/(main)/profile/components/ProfileOverview";
 
@@ -62,10 +63,13 @@ const ProfilePage = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        title="My profile"
-        description="Review your student information and manage account security."
-      />
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <PageHeader
+          title="My profile"
+          description="Review your student information and manage account security."
+        />
+        {isCollegeStudent && <PrintBiodataButton student={student} />}
+      </div>
       <ProfileOverview student={student} />
       <Tabs tabs={tabs} activeTab={selectedTab} onChange={setActiveTab} />
 

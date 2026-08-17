@@ -7,6 +7,24 @@ export interface SchoolBasicInfo {
   plan: Record<string, unknown>;
 }
 
+export interface StudentPortalSchool {
+  _id: string;
+  name: string;
+  shortName: string;
+  plan_id: string;
+  state: string;
+  country: string;
+  localGovernment: string;
+  contact: string;
+  address: string;
+  logo: string;
+  motto: string;
+  orgType: StudentOrganisationType;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
 export interface HolidayItem {
   _id: string;
   name: string;

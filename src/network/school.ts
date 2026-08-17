@@ -1,6 +1,6 @@
-import type { SchoolBasicInfo } from "@/src/types";
+import type { SchoolBasicInfo, StudentPortalSchool } from "@/src/types";
 
-import { authApiClient } from "./config";
+import { academicApiClient, authApiClient } from "./config";
 
 export const fetchSchoolBasicInfo = async (
   shortName: string,
@@ -8,5 +8,13 @@ export const fetchSchoolBasicInfo = async (
   const { data } = await authApiClient.get<SchoolBasicInfo>(
     `/organisations/${shortName}/basic-info`,
   );
+  return data;
+};
+
+export const getStudentPortalSchool = async (): Promise<StudentPortalSchool> => {
+  const { data } = await academicApiClient.get<StudentPortalSchool>(
+    "/student-portal/school",
+  );
+
   return data;
 };

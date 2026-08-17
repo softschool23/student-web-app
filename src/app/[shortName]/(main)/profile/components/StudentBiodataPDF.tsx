@@ -14,6 +14,7 @@ import { toast } from "sonner";
 
 import Button from "@/src/components/forms/button";
 import dayjs from "@/src/lib/dayjs";
+import { getProxiedPdfImageUrl } from "@/src/lib/pdf";
 import type { CollegeStudentProfile, StudentPortalSchool } from "@/src/types";
 
 interface StudentBiodataDocumentProps {
@@ -281,9 +282,6 @@ const formatDate = (value?: string): string =>
     ? dayjs(value).format("D/M/YYYY")
     : "Not provided";
 
-const getPdfImageUrl = (imageUrl: string): string =>
-  `/api/pdf-image?url=${encodeURIComponent(imageUrl)}`;
-
 const DetailCell = ({ label, value, fullWidth = false }: DetailCellProps) => (
   <View style={fullWidth ? styles.fullDetailCell : styles.detailCell}>
     <Text style={fullWidth ? styles.fullDetailLabel : styles.detailLabel}>
@@ -331,14 +329,17 @@ export const StudentBiodataDocument = ({
           // eslint-disable-next-line jsx-a11y/alt-text
           <Image
             fixed
-            src={getPdfImageUrl(school.logo)}
+            src={getProxiedPdfImageUrl(school.logo)}
             style={styles.schoolLogoWatermark}
           />
         )}
         <View style={styles.institutionHeader}>
           {school.logo ? (
             // eslint-disable-next-line jsx-a11y/alt-text
-            <Image src={getPdfImageUrl(school.logo)} style={styles.schoolLogo} />
+            <Image
+              src={getProxiedPdfImageUrl(school.logo)}
+              style={styles.schoolLogo}
+            />
           ) : (
             <View style={styles.schoolLogoPlaceholder}>
               <Text style={styles.schoolLogoPlaceholderText}>SCHOOL LOGO</Text>
@@ -387,7 +388,10 @@ export const StudentBiodataDocument = ({
           </View>
           {student.photo ? (
             // eslint-disable-next-line jsx-a11y/alt-text
-            <Image src={getPdfImageUrl(student.photo)} style={styles.photo} />
+            <Image
+              src={getProxiedPdfImageUrl(student.photo)}
+              style={styles.photo}
+            />
           ) : (
             <View style={styles.photoPlaceholder}>
               <Text style={styles.photoPlaceholderText}>STUDENT PHOTO</Text>

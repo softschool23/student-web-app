@@ -20,6 +20,7 @@ import {
   StudentOrganisationType,
   type CourseRegistrationPeriodParams,
 } from "@/src/types";
+import PrintCourseRegistrationButton from "@/src/app/[shortName]/(main)/course-registration/components/PrintCourseRegistrationButton";
 import CourseRegistrationForm from "./components/CourseRegistrationForm";
 import CourseRegistrationFilters from "./components/CourseRegistrationFilters";
 import CourseRegistrationFiltersSkeleton from "./components/CourseRegistrationFiltersSkeleton";
@@ -182,6 +183,15 @@ const CourseRegistrationPage = () => {
 
   const selectedSession = sessions.find((session) => session._id === sessionId);
   const selectedSemester = terms.find((term) => term._id === semesterId);
+  const sessionName =
+    selectedSession?.name ?? sessionControl.currentSession.name;
+  const semesterName =
+    selectedSemester?.name ?? sessionControl.currentTerm.name;
+  const submittedRegistration =
+    registrationData?.registration &&
+    registrationData.registration.status.toLowerCase() !== "draft"
+      ? registrationData.registration
+      : undefined;
   const handleSave = (selectedCourseIds: string[]) =>
     saveDraft({ ...params, selectedCourseIds });
   const handleSubmit = () => {
@@ -284,12 +294,8 @@ const CourseRegistrationPage = () => {
         ) : (
           <CourseRegistrationForm
             courses={courses}
-            sessionName={
-              selectedSession?.name ?? sessionControl.currentSession.name
-            }
-            semesterName={
-              selectedSemester?.name ?? sessionControl.currentTerm.name
-            }
+            sessionName={sessionName}
+            semesterName={semesterName}
             canEdit={canEdit}
             maxCreditUnits={registrationData.maxCreditUnits}
             isSaving={isSaving}
@@ -305,10 +311,20 @@ const CourseRegistrationPage = () => {
 
   return (
     <div className="space-y-6">
-      <PageHeader
-        title="Course Registration"
-        description="View or update your course registration for the selected academic period."
-      />
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <PageHeader
+          title="Course Registration"
+          description="View or update your course registration for the selected academic period."
+        />
+        {submittedRegistration && (
+          <PrintCourseRegistrationButton
+            registration={submittedRegistration}
+            semesterName={semesterName}
+            sessionName={sessionName}
+            student={student}
+          />
+        )}
+      </div>
 
       {isSessionsLoading || isTermsLoading ? (
         <CourseRegistrationFiltersSkeleton />

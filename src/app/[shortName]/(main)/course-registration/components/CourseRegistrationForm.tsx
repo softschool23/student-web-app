@@ -7,10 +7,7 @@ import { useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 
 import { Button, ConfirmModal } from "@/src/components";
-import {
-  CourseEnrollmentMode,
-  type AvailableCourseItem,
-} from "@/src/types";
+import { CourseEnrollmentMode, type AvailableCourseItem } from "@/src/types";
 import CourseCard from "./CourseCard";
 import RegistrationSummary from "./RegistrationSummary";
 
@@ -72,9 +69,7 @@ const CourseRegistrationForm = ({
   const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
   const initialSelectedCourseIds = useMemo(
     () =>
-      courses
-        .filter((item) => item.selected)
-        .map((item) => item.course._id),
+      courses.filter((item) => item.selected).map((item) => item.course._id),
     [courses],
   );
   const schema = useMemo(
@@ -83,9 +78,7 @@ const CourseRegistrationForm = ({
   );
   const creditUnitsById = useMemo(
     () =>
-      new Map(
-        courses.map((item) => [item.course._id, item.course.creditUnit]),
-      ),
+      new Map(courses.map((item) => [item.course._id, item.course.creditUnit])),
     [courses],
   );
 
@@ -96,7 +89,7 @@ const CourseRegistrationForm = ({
     setError,
     clearErrors,
     reset,
-    formState: { errors, isDirty },
+    formState: { errors },
   } = useForm<CourseRegistrationFormValues>({
     resolver: zodResolver(schema),
     defaultValues: { selectedCourseIds: initialSelectedCourseIds },
@@ -121,10 +114,7 @@ const CourseRegistrationForm = ({
   const isOverCreditLimit = selectedCreditUnits > maxCreditUnits;
 
   const handleToggleCourse = (item: AvailableCourseItem) => {
-    if (
-      !canEdit ||
-      item.enrollmentMode === CourseEnrollmentMode.AutoAdd
-    ) {
+    if (!canEdit || item.enrollmentMode === CourseEnrollmentMode.AutoAdd) {
       return;
     }
 
@@ -230,7 +220,7 @@ const CourseRegistrationForm = ({
             <p className="text-xs text-muted-foreground">
               {selectedCreditUnits} of {maxCreditUnits} credit units
             </p>
-            {canSubmit && isDirty && (
+            {canSubmit && (
               <p className="mt-1 text-xs text-amber-600 dark:text-amber-400">
                 Save your changes before final submission.
               </p>
@@ -240,9 +230,7 @@ const CourseRegistrationForm = ({
             <Button
               type="submit"
               loading={isSaving}
-              disabled={
-                !isDirty || isOverCreditLimit || isSaving || isSubmitting
-              }
+              disabled={isOverCreditLimit || isSaving || isSubmitting}
               className="w-full gap-2 sm:w-auto"
             >
               <Save className="h-4 w-4" />
@@ -252,7 +240,6 @@ const CourseRegistrationForm = ({
               <Button
                 type="button"
                 disabled={
-                  isDirty ||
                   isOverCreditLimit ||
                   isSaving ||
                   isSubmitting ||
